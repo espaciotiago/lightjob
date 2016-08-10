@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView2" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center|center_horizontal"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:weightSum="1" >
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="26dp"
+                        android:layout_height="56dp" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"></LinearLayout>
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:id="@+id/imageView3"
+                            android:src="@drawable/title" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="272dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title"
+                    android:hint="@string/title"
+                    android:layout_below="@+id/relativeLayout2"
+                    android:layout_marginTop="45dp"
+                    android:layout_alignLeft="@+id/editText7"
+                    android:layout_alignStart="@+id/editText7"
+                    android:layout_alignRight="@+id/editText7"
+                    android:layout_alignEnd="@+id/editText7" />
+            </LinearLayout>
+
+            <Spinner
+                android:layout_width="272dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/degree"
+                android:backgroundTint="@color/colorAccent"
+                android:gravity="center_horizontal" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"></LinearLayout>
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:id="@+id/imageView2"
+                        android:src="@drawable/location" />
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="272dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/location"
+                    android:id="@+id/ubication"
+                    android:layout_below="@+id/editText8"
+                    android:layout_alignLeft="@+id/editText8"
+                    android:layout_alignStart="@+id/editText8" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="304dp"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText2"
+                    android:hint="@string/resume"
+                    android:layout_below="@+id/relativeLayout2"
+                    android:layout_marginTop="45dp"
+                    android:layout_alignLeft="@+id/editText7"
+                    android:layout_alignStart="@+id/editText7"
+                    android:layout_alignRight="@+id/editText7"
+                    android:layout_alignEnd="@+id/editText7" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

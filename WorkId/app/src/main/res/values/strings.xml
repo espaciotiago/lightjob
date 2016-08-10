@@ -1,0 +1,96 @@
+<resources>
+    <string name="app_name">Light Job</string>
+    <string name="login">Iniciar sesion</string>
+    <string name="username">Correo electronico</string>
+    <string name="password">Contraseña</string>
+    <string name="password_reenter">Confirmar contraseña</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="not_in">¿Aún no tienes cuenta?</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="action_profile">Mi perfil</string>
+    <string name="action_next">Siguiente</string>
+    <string name="action_jobs">Ver ofertas de trabajo</string>
+    <string name="action_search">Buscar ofertas</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="see_complete_profile">Ver perfil completo</string>
+    <string name="search_hint">Buscar</string>
+    <string name="name_hint">Nombre completo</string>
+    <string name="settings">Configuración</string>
+    <string name="incomplete_info">Debe llenar todos los campos para continuar</string>
+    <string name="passwords_no_match">Las contraseñas no coinciden</string>
+    <string name="my_personal_info">Información personal</string>
+    <string name="my_formation_info"></string>
+    <string name="location">Mi ubicación</string>
+    <string name="resume">Resumen</string>
+    <string name="title">Titulación</string>
+    <string name="finish">Finalizar</string>
+    <string name="submit">Añadir</string>
+    <string name="send_cv">Enviar CV</string>
+    <string name="generate_pdf">Generar PDF</string>
+    <string name="cv_sent">Su hoja de vida ha sido enviada a </string>
+    <string name="delete_title">Eliminar esta entrada </string>
+    <string name="still">Actualmente</string>
+    <string name="configuration_title">Configuración de cuenta</string>
+    <string name="exit">Cerrar sesión</string>
+    <string name="change_password">Cambiar contraseña</string>
+    <string name="faq">Preguntas frecuentes e información</string>
+    <string name="pdf_generated">Su CV ha sido guardado</string>
+    <string name="done">Hecho</string>
+    <string name="old_password">Contraseña antigua</string>
+    <string name="new_password">Contraseña nueva</string>
+    <string name="academic_formation">Formación academica</string>
+    <string name="professional_experience">Experiencia profesional</string>
+    <string name="delete">¿Esta seguro que desea eliminar esta entrada? </string>
+    <string name="familiar_reference">Referencia familiar</string>
+    <string name="personal_reference">Referencia personal</string>
+    <string name="relation">Relación</string>
+    <string name="occupation">Ocupación</string>
+    <string name="contact">Contacto</string>
+    <string name="not_found">No se ha encontrado ningun elemento relacionado</string>
+    <string name="academic_area">Area académica</string>
+    <string name="references">Mis referencias</string>
+    <string name="watch_video">Ver mi video</string>
+    <string name="upload_video">Subir video</string>
+    <string name="upgrade">Mejora tu cuenta</string>
+    <string name="title_activity_search_results">SearchResultsActivity</string>
+    <string-array name="degrees">
+        <item>Titulación</item>
+        <item>Experto empírico</item>
+        <item>Curso o diplomado</item>
+        <item>Estudiante</item>
+        <item>Titulo universitario</item>
+        <item>Postgrado/Especialización</item>
+        <item>Maestria</item>
+        <item>Doctorado</item>
+    </string-array>
+    <string-array name="disciplines">
+        <item>Disciplina académica</item>
+        <item>Ciencias administrativas</item>
+        <item>Ciencias naturales</item>
+        <item>Ciencias de la salud</item>
+        <item>Ciencias sociales y humanidades</item>
+        <item>Ciencias formales</item>
+        <item>Ingeniería</item>
+    </string-array>
+    <string-array name="references">
+        <item>Tipo de referencia</item>
+        <item>Referencia familia</item>
+        <item>Referencia personal</item>
+        <item>Referencia profesional</item>
+    </string-array>
+    <string name="upgrade_info">Mejora tu cuenta</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_signup">SignupActivity</string>
+    <string name="title_activity_signup_formation">SignupFormationActivity</string>
+    <string name="title_activity_upgrade_account">UpgradeAccountActivity</string>
+    <string name="title_activity_post_description">PostDescriptionActivity</string>
+    <string name="title_activity_profile_editor">ProfileEditorActivity</string>
+    <string name="title_activity_configuration">Configuración de cuenta</string>
+    <string name="title_activity_complete_profile">Mi hoja de vida</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+</resources>

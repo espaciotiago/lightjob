@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ufo.smartin.workid.MainActivity">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/search"
+        android:title="@string/action_search"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
+    <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/profile"
+        android:title="@string/action_profile"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_configuration"
+        android:icon="@drawable/settings"
+        android:title="@string/settings"
+        app:showAsAction="always"/>
+</menu>

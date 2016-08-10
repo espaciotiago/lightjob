@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "247179462501",
+    "project_id": "lightjob-1380"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247179462501:android:55b952206a6dab1d",
+        "android_client_info": {
+          "package_name": "com.ufo.smartin.workid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDX9wIVGB32BsvBxSDMX0YYaZMuFV57xFY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

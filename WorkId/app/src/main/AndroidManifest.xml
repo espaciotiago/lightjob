@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ufo.smartin.workid">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission  android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <permission android:name="com.ufo.smartin.workid.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
+    <uses-permission android:name="com.ufo.smartin.workid.permission.C2D_MESSAGE"/>
+    
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/i"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <service android:name=".UploadVideoService"></service>
+
+        <activity
+            android:name="com.ufo.smartin.workid.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.ufo.smartin.workid.MenuActivity"
+            android:icon="@drawable/i"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResultsActivity" />
+        </activity>
+        <activity
+            android:name="com.ufo.smartin.workid.ProfileActivity"
+            android:label="@string/action_profile"
+            android:parentActivityName="com.ufo.smartin.workid.MenuActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ufo.smartin.workid.MenuActivity" />
+        </activity>
+        <activity
+            android:name="com.ufo.smartin.workid.SearchResultsActivity"
+            android:icon="@drawable/i"
+            android:label="@string/app_name"
+            android:parentActivityName="com.ufo.smartin.workid.MenuActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"
+                android:value=".activities.SearchResultActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ufo.smartin.workid.MenuActivity" />
+        </activity>
+        <activity
+            android:name="com.ufo.smartin.workid.SignupActivity"
+            android:label="@string/my_personal_info"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.ufo.smartin.workid.SignupFormationActivity"
+            android:label="@string/my_formation_info"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.ufo.smartin.workid.PostDescriptionActivity"
+            android:label=""
+            android:parentActivityName="com.ufo.smartin.workid.MenuActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ufo.smartin.workid.MenuActivity" />
+        </activity>
+        <activity
+            android:name="com.ufo.smartin.workid.ProfileEditorActivity"
+            android:label=""
+            android:parentActivityName="com.ufo.smartin.workid.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ufo.smartin.workid.ProfileActivity" />
+        </activity>
+        <activity
+            android:name="com.ufo.smartin.workid.ConfigurationActivity"
+            android:label="@string/title_activity_configuration"
+            android:parentActivityName="com.ufo.smartin.workid.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ufo.smartin.workid.ProfileActivity" />
+        </activity>
+        <activity
+            android:name="com.ufo.smartin.workid.CompleteProfileActivity"
+            android:label="@string/title_activity_complete_profile"
+            android:parentActivityName="com.ufo.smartin.workid.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ufo.smartin.workid.ProfileActivity" />
+        </activity>
+        <activity android:name="com.ufo.smartin.workid.LaunchActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.ufo.smartin.workid" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.ufo.smartin.workid.GCMPushReciverService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ufo.smartin.workid.GCMRegistrationIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+
+    </application>
+
+</manifest>
