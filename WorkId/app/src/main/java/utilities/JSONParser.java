@@ -189,6 +189,8 @@ public class JSONParser {
                     ArrayList<AcademicFormation> academic=new ArrayList<AcademicFormation>();
                     ArrayList<ProfessionalExperience> profess=new ArrayList<ProfessionalExperience>();
                     ArrayList<Reference> refer=new ArrayList<Reference>();
+                    Log.d("LINE",line);
+
                     JSONObject jo = new JSONObject(line);
                     //------------------------------------------------------------------------------------------------------
                     JSONArray jaAc=jo.getJSONArray("academic");
@@ -220,6 +222,7 @@ public class JSONParser {
                     ret = new User(jo.getString("name"), jo.getString("mail"), jo.getString("pass"),
                             jo.getString("location"), jo.getString("title"), jo.getString("resume"), jo.getString("image"),
                             jo.getString("account"), academic, profess,refer);
+
                 }
 
             }
@@ -234,6 +237,7 @@ public class JSONParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return ret;
     }
 
@@ -260,6 +264,125 @@ public class JSONParser {
                 if(!line.equals("")) {
                     //------------------------------------------------------------------------------------------------------
                     ret += line;
+                }
+
+            }
+            wr.close();
+            rd.close();
+            return ret;
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    //GET OFFERS RANDOM
+    public ArrayList<Post> getOffers(String url) {
+        ArrayList<Post> ret = new ArrayList<>();
+        try {
+            URL listItemsURL = new URL(url);
+
+            URLConnection tc = listItemsURL.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(tc.getInputStream()));
+
+            String line;
+
+            while ((line = in.readLine()) != null) {
+                if(!line.equals("")) {
+                    JSONArray ja = new JSONArray(line);
+                    for (int i = 0; i < ja.length(); i++){
+                        JSONObject jo = ja.getJSONObject(i);
+                        Post post = new Post(jo.getString("logo"),jo.getString("title"),jo.getString("description"),
+                                jo.getString("name"),jo.getString("location"),jo.getString("category"),
+                                jo.getString("email"), jo.getString("salary"));
+                        ret.add(post);
+                    }
+                }
+                Log.d("POST",ret.toString());
+            }
+            return ret;
+
+        } catch (MalformedURLException e) {
+
+        } catch (IOException e) {
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
+
+    //POST Offers
+    public ArrayList<Post> getOffersBy(String url, String query) {
+        ArrayList<Post> ret = new ArrayList<>();
+        try {
+            String data = URLEncoder.encode("query", "UTF-8") + "=" + URLEncoder.encode(query, "UTF-8");
+
+            URL avisoURL = new URL(url);
+            URLConnection tc = avisoURL.openConnection();
+
+
+            tc.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(tc.getOutputStream());
+            wr.write(data);
+            wr.flush();
+
+            BufferedReader rd = new BufferedReader(new InputStreamReader(tc.getInputStream()));
+            String line;
+            while ((line = rd.readLine()) != null) {
+                if(!line.equals("")) {
+                        JSONArray ja = new JSONArray(line);
+                        for (int i = 0; i < ja.length(); i++){
+                            JSONObject jo = ja.getJSONObject(i);
+                            Post post = new Post(jo.getString("logo"),jo.getString("title"),jo.getString("description"),
+                                    jo.getString("name"),jo.getString("location"),jo.getString("category"),
+                                    jo.getString("email"), jo.getString("salary"));
+                            ret.add(post);
+                        }
+                    Log.d("POST",ret.toString());
+                }
+
+            }
+            wr.close();
+            rd.close();
+            return ret;
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    //POST chg psd
+    public String deleteToken(String url, String mail) {
+        String ret = null;
+        try {
+            String data = URLEncoder.encode("mail", "UTF-8") + "=" + URLEncoder.encode(mail, "UTF-8");
+
+            URL avisoURL = new URL(url);
+            URLConnection tc = avisoURL.openConnection();
+
+
+            tc.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(tc.getOutputStream());
+            wr.write(data);
+            wr.flush();
+
+            BufferedReader rd = new BufferedReader(new InputStreamReader(tc.getInputStream()));
+            String line;
+            while ((line = rd.readLine()) != null) {
+                if(!line.equals("")) {
+                    //------------------------------------------------------------------------------------------------------
+                    ret += line;
+                    Log.d("LINE",line);
                 }
 
             }

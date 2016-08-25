@@ -1,17 +1,22 @@
 package com.ufo.smartin.workid;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import utilities.DatabaseHelper;
+import utilities.JSONParser;
 import utilities.User;
 
 public class ConfigurationActivity extends AppCompatActivity {
@@ -56,10 +61,7 @@ public class ConfigurationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Cerrar sesion
-                db.deleteUsers();
-                Intent goToMain=new Intent(ConfigurationActivity.this,MainActivity.class);
-                goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(goToMain);
+                new Http_deleteToken(user.getEmail()).execute();
             }
         });
 
@@ -85,6 +87,55 @@ public class ConfigurationActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    // DELETE TOKEN
+    //------------------------------------------------------------------------------------------------------------------
+    private class Http_deleteToken extends AsyncTask<Void, Void, String>
+    {
+        String mail;
+
+        public Http_deleteToken(String mail){
+            this.mail=mail;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params)
+        {   String ret=null;
+            JSONParser jp= new JSONParser();
+            try
+            {   String url=LaunchActivity.IP+"/deleteToken.php";
+                String us=jp.deleteToken(url,mail);
+                ret=us;
+                return ret;
+
+            } catch (Exception e)
+            {
+                Log.e("MainActivity", e.getMessage(), e);
+            }
+
+            return ret;
+        }
+
+        @Override
+        protected void onPostExecute(String info)
+        {
+            if(info!=null){
+                db.deleteUsers();
+                Intent goToMain=new Intent(ConfigurationActivity.this,MainActivity.class);
+                goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(goToMain);
+            }else{
+                Toast.makeText(getApplicationContext(), "Error cerrando sesion, intentelo más tarde",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

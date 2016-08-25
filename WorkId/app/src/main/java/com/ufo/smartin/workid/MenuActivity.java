@@ -18,9 +18,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import utilities.JSONParser;
 import utilities.Post;
 import utilities.User;
 
@@ -45,8 +47,8 @@ public class MenuActivity extends AppCompatActivity{
         user=(User)getIntent().getSerializableExtra("user");
         setTitle(user.getName().split(" ")[0]);
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.post_selected));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.category_unselected));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.category_selected));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.post_unselected));
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -55,9 +57,11 @@ public class MenuActivity extends AppCompatActivity{
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tabLayout.getSelectedTabPosition() != 0) {
-                    tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).setIcon(R.drawable.category_selected);
-                } else {
+                    //tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).setIcon(R.drawable.category_selected);
                     tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).setIcon(R.drawable.post_selected);
+                } else {
+                    tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).setIcon(R.drawable.category_selected);
+                    //tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).setIcon(R.drawable.post_selected);
                 }
                 mPager.setCurrentItem(tab.getPosition());
             }
@@ -65,9 +69,11 @@ public class MenuActivity extends AppCompatActivity{
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 if (tabLayout.getSelectedTabPosition() != 0) {
-                    tabLayout.getTabAt(tab.getPosition()).setIcon(R.drawable.category_unselected);
-                } else {
+                    //tabLayout.getTabAt(tab.getPosition()).setIcon(R.drawable.category_unselected);
                     tabLayout.getTabAt(tab.getPosition()).setIcon(R.drawable.post_unselected);
+                } else {
+                    //tabLayout.getTabAt(tab.getPosition()).setIcon(R.drawable.post_unselected);
+                    tabLayout.getTabAt(tab.getPosition()).setIcon(R.drawable.category_unselected);
                 }
             }
 
@@ -156,9 +162,11 @@ public class MenuActivity extends AppCompatActivity{
         public Fragment getItem(int position) {
             Log.d("POSITION ", position + "");
             if(position<1) {
-                return new PostsFragment();
-            }else{
                 return new CategoriesFragment();
+                //return new PostsFragment();
+            }else{
+                return new PostsFragment();
+                //return new CategoriesFragment();
             }
         }
 
@@ -180,35 +188,33 @@ public class MenuActivity extends AppCompatActivity{
     */
     //---------------------------------------------------------------------------------------------------------------
 
-    private class HttpRequestTaskPrueba extends AsyncTask<Void, Void, String>
+    private class HttpRequestTaskPrueba extends AsyncTask<Void, Void, ArrayList<Post>>
     {
         public HttpRequestTaskPrueba(){}
         @Override
-        protected String doInBackground(Void... params)
+        protected ArrayList<Post> doInBackground(Void... params)
         {
-            String ret="Ok";
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            String url=LaunchActivity.IP+"/getOffers.php";
+            ArrayList<Post> ret;
+            JSONParser jp = new JSONParser();
+            ret = jp.getOffers(url);
+
             return ret;
         }
 
         @Override
-        protected void onPostExecute(String info)
+        protected void onPostExecute(ArrayList<Post> info)
         {
-            if(info.equals("Ok")){
-                ArrayList<Post> listPosts=new ArrayList<>();
-                listPosts.add(new Post(R.drawable.ufo, "Desarrollador de Backend para Apps",
-                        "Se busca ingeniero o tecnico con habilidades para el desarrollo de Backend para aplicaciones móviles (Android)"
-                                +" y Web.\n Experiencia requerida: más de un (1) año.\n Conocimientos amplios en:"+"" +
-                                "\n PHP\n MySQL\n Linux\n Apache",
-                        "UFO Mobile","Cali-Colombia",4));
-                PostsFragment su=(PostsFragment)mPager.getAdapter().instantiateItem(mPager,0);
-                su.loadPosts(listPosts);
-                progress.dismiss();
+            if(info!=null) {
+                if (!info.isEmpty()) {
+                    ArrayList<Post> listPosts = info;
+                    PostsFragment su = (PostsFragment) mPager.getAdapter().instantiateItem(mPager, 1);
+                    su.loadPosts(listPosts);
+                }
+            }else{
+                Toast.makeText(getApplicationContext(), "Error obteniendo publicaciones", Toast.LENGTH_SHORT).show();
             }
+            progress.dismiss();
         }
 
     }

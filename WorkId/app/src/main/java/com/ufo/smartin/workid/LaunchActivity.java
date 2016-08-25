@@ -37,6 +37,7 @@ public class LaunchActivity extends AppCompatActivity {
     //public static String IP="http://192.168.0.25:5000/lightjob";
     //public static String IP="http://181.53.141.91:5000/lightjob";
     public static String IP="http://138.128.188.98/~lightjo1/app_backend/";
+    //public static String IP="http://lightjob.org/app_backend/";
     private String token;
     private BroadcastReceiver mRegistrationBroadcastReciver;
     public LaunchActivity() {
@@ -184,7 +185,6 @@ public class LaunchActivity extends AppCompatActivity {
         protected void onPostExecute(User info)
         {
             if(info!=null){
-
                 db.createUser(info.getEmail(),info.getPassword());
                 Intent goMenu = new Intent(LaunchActivity.this, MenuActivity.class);
                 goMenu.putExtra("user", info);

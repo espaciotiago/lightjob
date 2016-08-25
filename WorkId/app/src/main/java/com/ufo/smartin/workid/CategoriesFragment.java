@@ -47,26 +47,26 @@ public class CategoriesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_categories, container, false);
 
-        List<Category> listCategories=new ArrayList<>();
-        listCategories.add(new Category(R.drawable.ventas,"Comercial y ventas",1));
-        listCategories.add(new Category(R.drawable.ingenieria,"Ingenieria y producción",2));
-        listCategories.add(new Category(R.drawable.contruccion,"Profesionales, artes y oficios",3));
-        listCategories.add(new Category(R.drawable.ti,"Tecnologia e informatica",4));
-        listCategories.add(new Category(R.drawable.salud,"Sanidad, salud y servicios sociales",5));
-        listCategories.add(new Category(R.drawable.medio_ambiente,"Calidad, I+D, PRL, medio ambiente",6));
-        listCategories.add(new Category(R.drawable.educacion,"Educación y formación",7));
-        listCategories.add(new Category(R.drawable.banca,"Banca y seguros",8));
-        listCategories.add(new Category(R.drawable.logistica,"Compras, logística y transporte",9));
-        listCategories.add(new Category(R.drawable.hoteleria,"Hoteleria y turismo",10));
+        final List<Category> listCategories=new ArrayList<>();
         listCategories.add(new Category(R.drawable.administracion,"Administración de empresas",11));
-        listCategories.add(new Category(R.drawable.secretariado,"Administrativos y secretariado",12));
-        listCategories.add(new Category(R.drawable.inmobiliaria,"Construcción e inmobiliraria",13));
+        listCategories.add(new Category(R.drawable.secretariado,"Administración y secretariado",12));
         listCategories.add(new Category(R.drawable.atencion,"Atención al cliente",14));
-        listCategories.add(new Category(R.drawable.rrhh,"Recursos humanos",15));
-        listCategories.add(new Category(R.drawable.tele,"Telecomunicaciones",16));
+        listCategories.add(new Category(R.drawable.banca,"Banca y seguros",8));
+        listCategories.add(new Category(R.drawable.medio_ambiente,"Calidad, I+D, PRL, medio ambiente",6));
+        listCategories.add(new Category(R.drawable.ventas,"Comercial y ventas",1));
+        listCategories.add(new Category(R.drawable.logistica,"Compras, logística y transporte",9));
+        listCategories.add(new Category(R.drawable.inmobiliaria,"Construcción e inmobiliaria",13));
+        listCategories.add(new Category(R.drawable.educacion,"Educación y formación",7));
+        listCategories.add(new Category(R.drawable.hoteleria,"Hotelería y turismo",10));
+        listCategories.add(new Category(R.drawable.ingenieria,"Ingeniería y producción",2));
+        listCategories.add(new Category(R.drawable.legal,"Legal",19));
         listCategories.add(new Category(R.drawable.marketing,"Marketing y comunicación",17));
         listCategories.add(new Category(R.drawable.editorial,"Medios, editorial y artes gráficas",18));
-        listCategories.add(new Category(R.drawable.legal,"Legal",19));
+        listCategories.add(new Category(R.drawable.contruccion,"Profesionales, artes y oficios",3));
+        listCategories.add(new Category(R.drawable.rrhh,"Recursos humanos",15));
+        listCategories.add(new Category(R.drawable.salud,"Sanidad, salud y servicios sociales",5));
+        listCategories.add(new Category(R.drawable.ti,"Tecnología e información",4));
+        listCategories.add(new Category(R.drawable.tele,"Telecomunicaciones",16));
 
         gridview = (GridView) view.findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(getActivity(),listCategories));
@@ -74,10 +74,9 @@ public class CategoriesFragment extends Fragment {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(getActivity(), "" + position,
-                        Toast.LENGTH_SHORT).show();
+                Category cat = listCategories.get(position);
                 Intent goToSearch = new Intent(getActivity(),SearchResultsActivity.class);
-                goToSearch.putExtra("category",position+1);
+                goToSearch.putExtra("category",cat.getTitle());
                 startActivity(goToSearch);
             }
         });
@@ -126,7 +125,7 @@ public class CategoriesFragment extends Fragment {
             TextView title = (TextView) rowView.findViewById(R.id.category);
             Category item = this.categories.get(position);
             title.setText(item.getTitle());
-            image.setImageResource(item.getImage());
+            image.setBackgroundResource(item.getImage());
 
             return rowView;
         }

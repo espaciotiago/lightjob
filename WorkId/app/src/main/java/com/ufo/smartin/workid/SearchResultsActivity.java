@@ -1,8 +1,10 @@
 package com.ufo.smartin.workid;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -20,10 +22,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import utilities.JSONParser;
 import utilities.Post;
 import utilities.User;
 
@@ -34,6 +38,7 @@ public class SearchResultsActivity extends ActionBarActivity {
     private LinearLayout layout;
     private ListView posts;
     private User user;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +49,6 @@ public class SearchResultsActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //----------------------------------------------------------------------------------------------------------------
         auxList=new ArrayList<>();
-        auxList.add(new Post(R.drawable.ufo, "Desarrollador de Backend para Apps",
-                "Se busca ingeniero o tecnico con habilidades para el desarrollo de Backend para aplicaciones móviles (Android)"
-                        +" y Web.\n Experiencia requerida: más de un (1) año.\n Conocimientos amplios en:"+"" +
-                        "\n PHP\n MySQL\n Linux\n Apache",
-                "UFO Mobile","Cali-Colombia",4));
         //----------------------------------------------------------------------------------------------------------------
         listPosts=new ArrayList<>();
         posts=(ListView)findViewById(R.id.posts);
@@ -63,13 +63,24 @@ public class SearchResultsActivity extends ActionBarActivity {
         }
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+            /*
             listPosts=doMySearch(query);
             if(listPosts.isEmpty()||listPosts==null){
                 TextView notFound=new TextView(this);
                 notFound.setText(getResources().getString(R.string.not_found));
                 layout.addView(notFound);
             }
+            */
+            progress = new ProgressDialog(SearchResultsActivity.this,R.style.StyledDialog);
+            //progress.setMessage("Actualizando datos, por favor espere...");
+            progress.setInverseBackgroundForced(true);
+            progress.setCancelable(false);
+            progress.show();
+            new Http_OffersSearch(query).execute();
+
         }else{
+            String myCategory = intent.getStringExtra("category");
+            /*
             int myCategory=intent.getIntExtra("category", -1);
             Log.d("CAT",myCategory+"");
             listPosts=doMySearchByCategory(myCategory);
@@ -78,9 +89,16 @@ public class SearchResultsActivity extends ActionBarActivity {
                 notFound.setText(getResources().getString(R.string.not_found));
                 layout.addView(notFound);
             }
+            */
+            progress = new ProgressDialog(SearchResultsActivity.this,R.style.StyledDialog);
+            //progress.setMessage("Actualizando datos, por favor espere...");
+            progress.setInverseBackgroundForced(true);
+            progress.setCancelable(false);
+            progress.show();
+            Log.d("CATEGORY",myCategory);
+            new Http_OffersBy(myCategory).execute();
         }
 
-        this.posts.setAdapter(new PostAdapter(this, listPosts));
         posts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view,
@@ -127,7 +145,6 @@ public class SearchResultsActivity extends ActionBarActivity {
 
     @Override
     public boolean onSearchRequested() {
-        Log.d("TAG","Search");
         Bundle appData = new Bundle();
         appData.putSerializable("user", user);
         startSearch(null, false, appData, false);
@@ -151,12 +168,13 @@ public class SearchResultsActivity extends ActionBarActivity {
         ArrayList<Post> response=new ArrayList<>();
 
         for(int i=0;i<auxList.size();i++){
-            int cat=auxList.get(i).getCategory();
-            if(cat==category){
+            String cat=auxList.get(i).getCategory();
+            if(cat.equals(category)){
                 response.add(auxList.get(i));
             }
         }
-        return response;    }
+        return response;
+    }
     //----------------------------------------------------------------------------------------------------------------------------
     public class PostAdapter extends BaseAdapter {
 
@@ -202,9 +220,99 @@ public class SearchResultsActivity extends ActionBarActivity {
             Post item = this.posts.get(position);
             title.setText(item.getTitle());
             description.setText(item.getDescription());
-            image.setImageResource(item.getImage());
+            //image.setImageResource(item.getImage());
 
             return rowView;
         }
+    }
+    //----------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------
+    /**
+     * HTTP SEARCH
+     */
+    //---------------------------------------------------------------------------------------------------------------
+
+    private class Http_OffersSearch extends AsyncTask<Void, Void, ArrayList<Post>>
+    {
+        private String query;
+
+        public Http_OffersSearch(String query){
+            this.query = query;
+        }
+        @Override
+        protected ArrayList<Post> doInBackground(Void... params)
+        {
+            String url=LaunchActivity.IP+"/getOffersSearch.php";
+            ArrayList<Post> ret;
+            JSONParser jp = new JSONParser();
+            ret = jp.getOffersBy(url,query);
+
+            return ret;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Post> info)
+        {
+            Log.d("CATEGORY",info.toString());
+            if(info!=null) {
+                if (!info.isEmpty()) {
+                    listPosts = info;
+                    posts.setAdapter(new PostAdapter(getApplicationContext(), listPosts));
+                }else{
+                    TextView notFound=new TextView(getApplicationContext());
+                    notFound.setText(getResources().getString(R.string.not_found));
+                    layout.addView(notFound);
+                }
+            }else{
+                Toast.makeText(getApplicationContext(), "Error obteniendo publicaciones", Toast.LENGTH_SHORT).show();
+            }
+            progress.dismiss();
+        }
+
+    }
+
+    //---------------------------------------------------------------------------------------------------------------
+    /**
+     * HTTP OFFERS BY
+     */
+    //---------------------------------------------------------------------------------------------------------------
+
+    private class Http_OffersBy extends AsyncTask<Void, Void, ArrayList<Post>>
+    {
+        private String query;
+
+        public Http_OffersBy(String query){
+            this.query = query;
+        }
+        @Override
+        protected ArrayList<Post> doInBackground(Void... params)
+        {
+            String url=LaunchActivity.IP+"getOffersBy.php";
+            Log.d("URL",url);
+            ArrayList<Post> ret;
+            JSONParser jp = new JSONParser();
+            ret = jp.getOffersBy(url,query);
+
+            return ret;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Post> info)
+        {
+            if(info!=null) {
+                if (!info.isEmpty()) {
+                    listPosts = info;
+                    posts.setAdapter(new PostAdapter(getApplicationContext(), listPosts));
+                }else{
+                    TextView notFound=new TextView(getApplicationContext());
+                    notFound.setText(getResources().getString(R.string.not_found));
+                    layout.addView(notFound);
+                }
+            }else{
+                Toast.makeText(getApplicationContext(), "Error obteniendo publicaciones", Toast.LENGTH_SHORT).show();
+            }
+            progress.dismiss();
+        }
+
     }
 }

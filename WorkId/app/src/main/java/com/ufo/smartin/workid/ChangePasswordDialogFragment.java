@@ -109,7 +109,7 @@ public class ChangePasswordDialogFragment extends DialogFragment {
     }
 
     //------------------------------------------------------------------------------------------------------------------
-    // AUTHENTICATE USER
+    // CHANGE PASSWORD
     //------------------------------------------------------------------------------------------------------------------
     private class Http_chgPass extends AsyncTask<Void, Void, String>
     {

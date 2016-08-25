@@ -18,6 +18,7 @@ public class PostDescriptionActivity extends AppCompatActivity {
     private TextView company;
     private TextView place;
     private TextView description;
+    private TextView salary;
     private Button send;
 
     @Override
@@ -33,12 +34,14 @@ public class PostDescriptionActivity extends AppCompatActivity {
         company = (TextView) findViewById(R.id.company);
         place = (TextView) findViewById(R.id.place);
         description = (TextView) findViewById(R.id.description);
+        salary= (TextView) findViewById(R.id.salary);
         send = (Button) findViewById(R.id.send);
 
         title.setText(myPost.getTitle());
         company.setText(myPost.getCompany());
         place.setText(myPost.getPlace());
         description.setText(myPost.getDescription());
+        salary.setText(myPost.getSalary());
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override

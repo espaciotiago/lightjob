@@ -148,7 +148,7 @@ public class SignupFragment extends Fragment {
             Post item = this.posts.get(position);
             title.setText(item.getTitle());
             description.setText(item.getDescription());
-            image.setImageResource(item.getImage());
+            //image.setImageResource(item.getImage());
 
             return rowView;
         }

@@ -38,7 +38,7 @@ public class UploadVideoService extends IntentService {
         Upload u = new Upload();
         //String msg = u.uploadVideo(selectedPath);
         if(path!=null && !path.equals("")) {
-            msg = u.uploadVideo(path,"video");
+            msg = u.uploadVideo(path,name);
         }
         return msg;
     }

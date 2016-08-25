@@ -8,7 +8,11 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ufo.smartin.workid.SearchResultsActivity"
-    tools:showIn="@layout/activity_search_results">
+    tools:showIn="@layout/activity_search_results"
+    android:layout_marginBottom="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp">
 
     <ListView
         android:layout_width="wrap_content"
