@@ -25,7 +25,7 @@ import android.widget.VideoView;
 
 public class UpgradeAccountFragment extends Fragment {
 
-    private static final String PATH =LaunchActivity.IP+"/images/";
+    private static final String PATH ="http://lightjob.org/videos/";
     private static final int SELECT_VIDEO = 3;
     private String selectedPath;
     ProgressDialog loading;
@@ -70,7 +70,11 @@ public class UpgradeAccountFragment extends Fragment {
             watch_video.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String path = PATH + userMail.split("\\.")[0] + ".mp4";
+                    String tempname[] = userMail.split("\\@");
+                    String mailDomain = tempname[1].split("\\.")[0];
+                    String name=tempname[0]+"@"+mailDomain;
+
+                    String path = PATH + name + ".mp4";
                     //String path=PATH+"msantim@hotmail.mp4";
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(path));
                     intent.setDataAndType(Uri.parse(path), "video/mp4");
@@ -162,12 +166,15 @@ public class UpgradeAccountFragment extends Fragment {
         loading = ProgressDialog.show(getActivity(), "Subiendo video...",
                 "Puede tardar unos segundos", true, true);
         loading.setCancelable(false);
-        String name=userMail.split("\\.")[0];
-        Log.d("TAG NAME",name);
+        String tempname[] = userMail.split("\\@");
+        String mailDomain = tempname[1].split("\\.")[0];
+        String name=tempname[0]+"@"+mailDomain;
+
         Intent msgIntent = new Intent(getActivity(), UploadVideoService.class);
         msgIntent.putExtra("path", selectedPath);
         msgIntent.putExtra("name",name);
         getActivity().startService(msgIntent);
+
     }
 
     //--------------------------------------------------------------------------------------------

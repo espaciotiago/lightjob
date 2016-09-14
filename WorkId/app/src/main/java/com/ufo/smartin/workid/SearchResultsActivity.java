@@ -53,6 +53,7 @@ public class SearchResultsActivity extends ActionBarActivity {
         listPosts=new ArrayList<>();
         posts=(ListView)findViewById(R.id.posts);
         layout= (LinearLayout)findViewById(R.id.layout);
+        user = (User)getIntent().getSerializableExtra("user");
         Intent intent = getIntent();
         intent.putExtra("user", user);
         setResult(RESULT_OK, intent);
@@ -80,6 +81,7 @@ public class SearchResultsActivity extends ActionBarActivity {
 
         }else{
             String myCategory = intent.getStringExtra("category");
+            Log.d("USER SERACH RES",user.toString());
             /*
             int myCategory=intent.getIntExtra("category", -1);
             Log.d("CAT",myCategory+"");
@@ -106,6 +108,7 @@ public class SearchResultsActivity extends ActionBarActivity {
                 Post selected = (Post) posts.getAdapter().getItem(position);
                 Intent goToDescription = new Intent(getApplicationContext(),PostDescriptionActivity.class);
                 goToDescription.putExtra("post", selected);
+                goToDescription.putExtra("user", user);
                 startActivity(goToDescription);
             }
         });

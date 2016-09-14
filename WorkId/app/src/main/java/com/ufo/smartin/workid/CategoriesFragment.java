@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utilities.Category;
+import utilities.User;
 
 
 public class CategoriesFragment extends Fragment {
@@ -28,9 +30,10 @@ public class CategoriesFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static CategoriesFragment newInstance(String param1, String param2) {
+    public static CategoriesFragment newInstance(User user) {
         CategoriesFragment fragment = new CategoriesFragment();
         Bundle args = new Bundle();
+        args.putSerializable("user",user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,6 +47,8 @@ public class CategoriesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        final User user = (User) getArguments().getSerializable("user");
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_categories, container, false);
 
@@ -77,6 +82,7 @@ public class CategoriesFragment extends Fragment {
                 Category cat = listCategories.get(position);
                 Intent goToSearch = new Intent(getActivity(),SearchResultsActivity.class);
                 goToSearch.putExtra("category",cat.getTitle());
+                goToSearch.putExtra("user", user);
                 startActivity(goToSearch);
             }
         });

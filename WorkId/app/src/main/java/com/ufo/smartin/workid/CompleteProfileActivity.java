@@ -58,7 +58,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
 
     private final static String NOMBRE_DIRECTORIO = "MiCv";
     private final static String ETIQUETA_ERROR = "ERROR";
-    private static final String PATH =LaunchActivity.IP+"/images/";
+    private static final String PATH ="http://lightjob.org/videos/";
 
     private User user;
     private Menu menu;
@@ -158,7 +158,12 @@ public class CompleteProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(user.isAccount().equals("true")) {
-                    String path = PATH + user.getEmail().split("\\.")[0] + ".mp4";
+
+                    String tempname[] = user.getEmail().split("\\@");
+                    String mailDomain = tempname[1].split("\\.")[0];
+                    String name=tempname[0]+"@"+mailDomain;
+
+                    String path = PATH + name + ".mp4";
                     //String path=PATH+"msantim@hotmail.mp4";
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(path));
                     intent.setDataAndType(Uri.parse(path), "video/mp4");

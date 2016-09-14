@@ -382,7 +382,6 @@ public class JSONParser {
                 if(!line.equals("")) {
                     //------------------------------------------------------------------------------------------------------
                     ret += line;
-                    Log.d("LINE",line);
                 }
 
             }
@@ -393,6 +392,47 @@ public class JSONParser {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public String enviarHojaDeVida(String url,String mail,String userName,String titlePost,String companyMail){
+        String ret = null;
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("mail",mail);
+            jsonObject.put("titlePost",titlePost);
+            jsonObject.put("userName",userName);
+            jsonObject.put("companyMail",companyMail);
+
+            URL avisoURL = new URL(url);
+            URLConnection tc = avisoURL.openConnection();
+
+            Log.d("DATA",jsonObject.toString());
+            tc.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(tc.getOutputStream());
+            wr.write(jsonObject.toString());
+            wr.flush();
+
+            BufferedReader rd = new BufferedReader(new InputStreamReader(tc.getInputStream()));
+            String line;
+            while ((line = rd.readLine()) != null) {
+                if(!line.equals("")) {
+                    //------------------------------------------------------------------------------
+                    Log.d("TAG LINE",line);
+                    ret += line;
+                }
+
+            }
+            wr.close();
+            rd.close();
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return ret;

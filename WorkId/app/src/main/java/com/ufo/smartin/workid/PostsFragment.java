@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utilities.Post;
+import utilities.User;
 
 
 public class PostsFragment extends Fragment {
@@ -27,9 +28,11 @@ public class PostsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static PostsFragment newInstance(String param1, String param2) {
+    public static PostsFragment newInstance(User user) {
         PostsFragment fragment = new PostsFragment();
         Bundle args = new Bundle();
+        args.putSerializable("user",user);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -41,6 +44,8 @@ public class PostsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        final User user = (User) getArguments().getSerializable("user");
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_posts, container, false);
         posts=(ListView)view.findViewById(R.id.posts);
@@ -51,6 +56,7 @@ public class PostsFragment extends Fragment {
                 Post selected = (Post) posts.getAdapter().getItem(position);
                 Intent goToDescription = new Intent(getActivity(), PostDescriptionActivity.class);
                 goToDescription.putExtra("post", selected);
+                goToDescription.putExtra("user", user);
                 startActivity(goToDescription);
             }
         });

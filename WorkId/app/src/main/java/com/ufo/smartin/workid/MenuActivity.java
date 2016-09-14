@@ -162,10 +162,10 @@ public class MenuActivity extends AppCompatActivity{
         public Fragment getItem(int position) {
             Log.d("POSITION ", position + "");
             if(position<1) {
-                return new CategoriesFragment();
+                return CategoriesFragment.newInstance(user);
                 //return new PostsFragment();
             }else{
-                return new PostsFragment();
+                return PostsFragment.newInstance(user);
                 //return new CategoriesFragment();
             }
         }
