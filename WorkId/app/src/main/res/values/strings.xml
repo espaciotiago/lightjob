@@ -79,7 +79,9 @@
         <item>Referencia personal</item>
         <item>Referencia profesional</item>
     </string-array>
-    <string name="upgrade_info">Mejora tu cuenta</string>
+    <string name="upgrade_video_info">Al mejorar tu cuenta podras añadir un video a tu hoja de vida con las siguientes restricciones: \n
+                                    - Debe estar en formato .mp4 \n
+                                    - Puede pesar hasta 12 MB</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

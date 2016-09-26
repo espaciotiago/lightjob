@@ -53,8 +53,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/upgrade_info"
-                android:id="@+id/info" />
+                android:text="@string/upgrade_video_info"
+                android:id="@+id/info"
+                android:textSize="20dp" />
         </ScrollView>
 
     </LinearLayout>

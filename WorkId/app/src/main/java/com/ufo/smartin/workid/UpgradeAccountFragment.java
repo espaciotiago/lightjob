@@ -187,7 +187,20 @@ public class UpgradeAccountFragment extends Fragment {
                 String message = intent.getStringExtra("message");
                 if(message.equals("Could not upload")){
                     Toast.makeText(getActivity(), "Error subiendo el video", Toast.LENGTH_SHORT).show();
-                }else {
+                }else if(message.equals("size limit")){
+
+                    new AlertDialog.Builder(context)
+                            .setTitle("Limite máximo de envio exedido")
+                            .setMessage("El video que desea subir pesa demasiado. Intente comprimirlo antes de enviar")
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_delete)
+                            .show();
+
+                } else {
                     Toast.makeText(getActivity(), "Video subido", Toast.LENGTH_SHORT).show();
                 }
             }else{

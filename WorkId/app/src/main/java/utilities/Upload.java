@@ -23,6 +23,7 @@ import java.net.URL;
 public class Upload {
     //public static final String UPLOAD_URL= "http://www.lightjob.org/videoUpload.php";
     public static String UPLOAD_URL="http://138.128.188.98/~lightjo1/videoUpload.php";
+    //public static String UPLOAD_URL="http://cosmoagro.com/sdcpruebas/prueba_tiago/videoUpload.php";
     //public static final String UPLOAD_URL= "http://192.168.0.25:5000/lightjob/videoUpload.php";
 
     private int serverResponseCode;
@@ -148,6 +149,7 @@ public class Upload {
         int bytesRead, bytesAvailable, bufferSize;
         byte[] buffer;
         int maxBufferSize = 4 * 1024;
+        boolean send = true;
 
         File sourceFile = new File(file);
         if (!sourceFile.isFile()) {
@@ -162,13 +164,14 @@ public class Upload {
             conn.setDoInput(true);
             conn.setDoOutput(true);
             conn.setUseCaches(false);
-            //conn.setChunkedStreamingMode(0);
-            //conn.setFixedLengthStreamingMode(Math.min(fileInputStream.available(), maxBufferSize));
+            //conn.setChunkedStreamingMode(maxBufferSize);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Connection", "Keep-Alive");
+            //conn.setRequestProperty("Transfer-Encoding", "chunked");
             conn.setRequestProperty("ENCTYPE", "multipart/form-data");
             conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
             conn.setRequestProperty("myFile", fileName);
+            //conn.setFixedLengthStreamingMode(file.getBytes().length+boundary.getBytes().length);
             dos = new DataOutputStream(conn.getOutputStream());
 
             dos.writeBytes(twoHyphens + boundary + lineEnd);
@@ -178,41 +181,46 @@ public class Upload {
             bytesAvailable = fileInputStream.available();
             Log.i("Huzza", "Initial .available : " + bytesAvailable);
 
-            bufferSize = Math.min(bytesAvailable, maxBufferSize);
-            buffer = new byte[bufferSize];
-
-            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-            while (bytesRead > 0) {
-                dos.write(buffer, 0, bufferSize);
-                bytesAvailable = fileInputStream.available();
+            if(bytesAvailable<15000000) {
                 bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                buffer = new byte[bufferSize];
+
                 bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-            }
 
-            dos.writeBytes(lineEnd);
-            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-            serverResponseCode = conn.getResponseCode();
-            Log.d("RET", conn.getResponseMessage()+" "+serverResponseCode);
-
-            if(serverResponseCode!=200){
-                BufferedReader br = new BufferedReader(new InputStreamReader((conn.getErrorStream())));
-                String output;
-                String ss="";
-                try {
-                    while ((output = br.readLine()) != null) {
-                        ss+=output;
-                    }
-                    Log.d("ERROR", ss);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                while (bytesRead > 0) {
+                    dos.write(buffer, 0, bufferSize);
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
                 }
+
+                dos.writeBytes(lineEnd);
+                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+                serverResponseCode = conn.getResponseCode();
+                Log.d("RET", conn.getResponseMessage()+" "+serverResponseCode);
+
+                if(serverResponseCode!=200){
+                    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getErrorStream())));
+                    String output;
+                    String ss="";
+                    try {
+                        while ((output = br.readLine()) != null) {
+                            ss+=output;
+                        }
+                        Log.d("ERROR", ss);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                fileInputStream.close();
+                dos.flush();
+                dos.close();
+            }else{
+                send = false;
             }
 
-            fileInputStream.close();
-            dos.flush();
-            dos.close();
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         } catch (Exception e) {
@@ -221,21 +229,26 @@ public class Upload {
 
 
 
-        if (serverResponseCode == 200) {
-            StringBuilder sb = new StringBuilder();
-            try {
-                BufferedReader rd = new BufferedReader(new InputStreamReader(conn
-                        .getInputStream()));
-                String line;
-                while ((line = rd.readLine()) != null) {
-                    sb.append(line);
+        if(send) {
+            if (serverResponseCode == 200) {
+                StringBuilder sb = new StringBuilder();
+                try {
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(conn
+                            .getInputStream()));
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    rd.close();
+                } catch (IOException ioex) {
                 }
-                rd.close();
-            } catch (IOException ioex) {
+                return sb.toString();
+            } else {
+                return "Could not upload";
             }
-            return sb.toString();
         }else {
-            return "Could not upload";
+            return "size limit";
         }
     }
+
 }
